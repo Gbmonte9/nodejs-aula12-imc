@@ -1,0 +1,69 @@
+extends layout
+
+block content
+  .container.mt-5.bg-dark.text-light.p-4.rounded.shadow
+    h1.text-center.mb-4.text-info= title
+    p.text-center.lead.text-light.mb-4 Welcome to #{title}
+
+    .card.bg-secondary.text-light.mx-auto.shadow.rounded(style="max-width: 500px;")
+      .card-body
+        h4.card-title.text-center.text-info.mb-4 Cadastro de Usuário
+
+        form(action="/cadastro" method="post" novalidate)
+          .mb-3
+            label.form-label(for="vname") Nome:
+            input.form-control.bg-secondary.text-light.border-0.rounded-pill(
+              type="text"
+              name="vname"
+              id="vname"
+              placeholder="Digite seu nome"
+              required
+              aria-label="Nome"
+            )
+
+          .mb-3
+            label.form-label(for="vemail") E-mail:
+            input.form-control.bg-secondary.text-light.border-0.rounded-pill(
+              type="email"
+              name="vemail"
+              id="vemail"
+              placeholder="seuemail@email.com"
+              required
+              aria-label="E-mail"
+            )
+
+          .mb-3
+            label.form-label(for="vpeso") Peso (kg):
+            input.form-control.bg-secondary.text-light.border-0.rounded-pill(
+              type="text"
+              name="vpeso"
+              id="vpeso"
+              placeholder="Ex: 63.5"
+              required
+              aria-label="Peso"
+            )
+
+          .mb-3
+            label.form-label(for="valtura") Altura (m):
+            input.form-control.bg-secondary.text-light.border-0.rounded-pill(
+              type="text"
+              name="valtura"
+              id="valtura"
+              placeholder="Ex: 1.65"
+              required
+              aria-label="Altura"
+            )
+
+          .d-flex.justify-content-between.mt-4
+            button.btn.btn-outline-info.px-4.rounded-pill(type="submit") ✅ Cadastrar
+            a.btn.btn-outline-light.px-4.rounded-pill(href="/") ⬅️ Voltar
+
+        if typeof verificacao !== 'undefined'
+          if verificacao
+            .alert.alert-success.d-flex.align-items-center.justify-content-center.text-center.fw-semibold.mt-4(role="alert")
+              i.bi.bi-check-circle-fill.me-2
+              | ✅ #{message}
+          else
+            .alert.alert-danger.d-flex.align-items-center.justify-content-center.text-center.fw-semibold.mt-4(role="alert")
+              i.bi.bi-exclamation-triangle-fill.me-2
+              | ❌ #{message}

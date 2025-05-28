@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  .container.mt-5.bg-dark.text-light.p-4.rounded.shadow
+    h1.text-center.mb-4.text-info= title
+    p.text-center.lead.text-light.mb-4 Welcome to #{title}
+
+    if unique_user
+      .card.bg-secondary.text-light.mx-auto.shadow(style="max-width: 500px;")
+        .card-body
+          h4.card-title.text-center.text-info.mb-4 Usuário Encontrado
+
+          ul.list-group.list-group-flush.mb-3
+            li.list-group-item.bg-secondary.text-light Nome: #{unique_user.nome}
+            li.list-group-item.bg-secondary.text-light E-mail: #{unique_user.email}
+            li.list-group-item.bg-secondary.text-light Peso: #{unique_user.peso} kg
+            li.list-group-item.bg-secondary.text-light Altura: #{unique_user.altura} m
+            if imc
+              li.list-group-item.bg-secondary.text-light IMC: #{imc}
+
+          .d-flex.justify-content-between.mt-4
+            a.btn.btn-outline-info.px-4.rounded-pill(href=`/user/${unique_user.id}/download`) ⬇️ Baixar .txt
+            a.btn.btn-outline-light.px-4.rounded-pill(href="/") ⬅️ Voltar
+
+    else if message
+      .alert.alert-danger.text-center.fw-semibold(role="alert") ❌ #{message}
