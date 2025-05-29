@@ -1,0 +1,32 @@
+extends layout
+
+block content
+  .container.mt-5.bg-dark.text-light.p-4.rounded.shadow
+    h1.text-center.mb-4.text-info= title
+    p.lead.text-center.text-light Lista de usuários cadastrados no sistema
+
+    .d-flex.justify-content-center.gap-3.mb-4
+      a.btn.btn-outline-info(href='/cadastro') ➕ Cadastrar Usuário
+      a.btn.btn-outline-light(href='/') 🏠 Voltar para o Início
+
+    if verificacao
+      p.text-success.fw-semibold.mb-4.text-center
+        | ✅ Conectado ao banco de dados com sucesso.
+    else
+      p.text-danger.fw-semibold.mb-4.text-center
+        | ❌ Erro ao conectar no banco de dados.
+
+    hr.border-light
+
+    p.fw-semibold.mb-2 Lista de Usuários:
+    if arr_users && arr_users.length > 0
+      ul.list-group
+        each user in arr_users
+          li.list-group-item.bg-secondary.text-light.d-flex.justify-content-between.align-items-center
+            a.link-light.text-decoration-none(href=`/user/${user.id}`) #{user.nome} - #{user.email}
+            button.btn.btn-sm.btn-danger(
+              type="button",
+              onclick=`if(confirm('Deseja realmente deletar o usuário ${user.nome}?')) { window.location.href='/user/${user.id}/delete'; }`
+            ) 🗑️
+    else
+      p.text-danger Nenhum usuário encontrado.

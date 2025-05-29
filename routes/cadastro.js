@@ -44,17 +44,42 @@ router.post('/', async function(req, res, next) {
   const alturaFloat = parseFloat(valtura);
 
   try {
+
+    const emailFormatado = vemail.trim().toLowerCase();
+    const checkEmail = await db.query('SELECT * FROM usuario_imc WHERE LOWER(email) = $1', [emailFormatado]);
+    
+    console.log('checkEmail:', checkEmail);
+
+    if (checkEmail && Array.isArray(checkEmail.rows) && checkEmail.rows.length > 0) {
+      return res.render('cadastro', {
+        verificacao: false,
+        message: 'Erro: E-mail já está registrado.'
+      });
+    }
+
     await db.query(
       'INSERT INTO usuario_imc (id, nome, email, peso, altura) VALUES ($1, $2, $3, $4, $5)',
-      [id, vname, vemail, pesoFloat, alturaFloat]
+      [id, vname.trim(), emailFormatado, pesoFloat, alturaFloat]
     );
 
-    res.render('cadastro', { verificacao: true, message: 'Cadastro com Sucesso.' });
+    res.render('cadastro', {
+      verificacao: true,
+      message: '✅ Cadastro realizado com sucesso.'
+    });
+
   } catch (error) {
-    console.log('====================');
-    console.log('DB ERROR:', error);
-    console.log('====================');
-    res.render('cadastro', { verificacao: false, message: `Erro: ${error.message}` });
+    if (error.code === '23505') {
+      return res.render('cadastro', {
+        verificacao: false,
+        message: 'Erro: Este e-mail já está cadastrado.'
+      });
+    }
+
+    console.error('Erro no cadastro:', error);
+    res.render('cadastro', {
+      verificacao: false,
+      message: `Erro ao cadastrar: ${error.message}`
+    });
   }
   
 });

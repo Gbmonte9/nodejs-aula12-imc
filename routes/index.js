@@ -2,24 +2,17 @@ var express = require('express');
 var router = express.Router();
 const db = require('../db');
 
-router.get('/', async function(req, res, next) {
-  let arr_users = [];
-  let verificacao = true;
+router.get('/', async function (req, res, next) {
+  let verificacao = false;
 
   try {
-    arr_users = await db.query('SELECT * FROM public.usuario_imc');
+    await db.query('SELECT 1'); 
+    verificacao = true;
   } catch (error) {
-    console.log('====================');
-    console.log('DB ERROR:', error);
-    console.log('====================');
-    verificacao = false;
+    console.error('Erro ao conectar ao banco de dados:', error);
   }
 
-  res.render('index', {
-    title: 'Index',
-    arr_users,
-    verificacao
-  });
+  res.render('index', { title: 'Index', verificacao });
 });
 
 module.exports = router;

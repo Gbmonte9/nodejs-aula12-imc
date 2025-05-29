@@ -5,9 +5,25 @@ block content
     h1.text-center.mb-4.text-info= title
     p.lead.text-center.text-light Welcome to #{title}
 
-    // Botão para página de cadastro
-    .d-flex.justify-content-center.mb-4
+    // Descrição do projeto
+    .mb-4
+      p
+        | Este projeto é um sistema web para 
+        strong cadastro e gerenciamento de usuários,
+        | desenvolvido com 
+        strong Node.js, Express, PostgreSQL 
+        | e 
+        strong Bootstrap 
+        | na interface. A aplicação permite o registro, visualização e exclusão de usuários, além de verificar a conexão com o banco de dados.
+      p.mt-2
+        | 📎 Link para o repositório no GitHub:
+        br
+        a.text-info(href="https://github.com/Gbmonte9/nodejs-aula12-imc" target="_blank") 👉 github.com/Gbmonte9/nodejs-aula12-imc
+
+    // Botões de navegação
+    .d-flex.justify-content-center.gap-3.mb-4
       a.btn.btn-outline-info(href='/cadastro') ➕ Cadastrar Usuário
+      a.btn.btn-outline-light(href='/user') 📋 Ver Lista de Usuários
 
     if verificacao
       p.text-success.fw-semibold.mb-4.text-center
@@ -15,15 +31,3 @@ block content
     else
       p.text-danger.fw-semibold.mb-4.text-center
         | ❌ Erro ao conectar no banco de dados.
-
-    hr.border-light
-
-    p.fw-semibold.mb-2 Lista de Usuários:
-    if arr_users && arr_users.length > 0
-      ul.list-group
-        each user in arr_users
-          li.list-group-item.bg-secondary.text-light.d-flex.justify-content-between.align-items-center
-            a.link-light.text-decoration-none(href=`/user/${user.id}`) #{user.nome} - #{user.email}
-            button.btn.btn-sm.btn-danger(type="button" onclick=`if(confirm('Deseja realmente deletar o usuário ${user.nome}?')) { window.location.href='/delete/${user.id}'; }`) 🗑️
-    else
-      p.text-danger Nenhum usuário encontrado.
